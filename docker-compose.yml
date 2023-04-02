@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  web:
+    image: rena:latest
+    volumes:
+      - ./web:/var/www/localhost/htdocs/
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    tty: true
+    stdin_open: true
+
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - ./db:/home/db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+
+  mailhog:
+    image: "mailhog/mailhog:latest"
+    logging:
+      driver: "none"
+    ports:
+      - 1025:1025
+      - 8025:8025
